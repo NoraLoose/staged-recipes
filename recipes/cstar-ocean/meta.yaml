@@ -1,0 +1,51 @@
+{% set name = "cstar-ocean" %}
+{% set version = "0.0.7" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/cstar_ocean-{{ version }}.tar.gz
+  sha256: e61485b3ee34787f649638913db7519bc26cb7ac50ea56ecd2ec91e851646e9a
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python >=3.10
+    - setuptools >=61.0.0
+    - wheel
+    - setuptools-scm >=7.0
+    - check-manifest
+    - pip
+  run:
+    - python >=3.10
+    - python-dateutil >=2.8.2
+    - python-dotenv
+    - pyyaml ==6.0.2
+    - pooch >=1.8.1
+    - roms-tools >=2.0.0
+
+test:
+  imports:
+    - ci
+    - cstar
+    - dist
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  summary: Computational systems for tracking ocean carbon
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - dafyddstephenson
+    - NoraLoose
